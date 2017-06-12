@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.google.sample.cloudvision"
-        minSdkVersion 22
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -29,4 +29,5 @@ dependencies {
     compile 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
 
     compile 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'
+    compile 'com.github.greenfrvr:hashtag-view:1.2.1'
 }

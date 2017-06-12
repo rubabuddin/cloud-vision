@@ -51,6 +51,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
+import com.greenfrvr.hashtagview.HashtagView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,7 +61,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String CLOUD_VISION_API_KEY = "YOUR_API_KEY";
+    private static final String CLOUD_VISION_API_KEY = "AIzaSyCoVeTtF5TUjXTyWCanFE-YbpKRV5spoes";
     public static final String FILE_NAME = "temp.jpg";
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
     private static final String ANDROID_PACKAGE_HEADER = "X-Android-Package";
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mImageDetails;
     private ImageView mMainImage;
+    private HashtagView htView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         mImageDetails = (TextView) findViewById(R.id.image_details);
         mMainImage = (ImageView) findViewById(R.id.main_image);
+        htView = (HashtagView) findViewById(R.id.htView);
     }
 
     public void startGalleryChooser() {
@@ -303,13 +306,21 @@ public class MainActivity extends AppCompatActivity {
         String message = "I found these things:\n\n";
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
+
+        List<String> hashTags = new ArrayList<String>();
+
         if (labels != null) {
             for (EntityAnnotation label : labels) {
+                hashTags.add(label.getDescription());
                 message += String.format(Locale.US, "%.3f: %s", label.getScore(), label.getDescription());
                 message += "\n";
             }
         } else {
             message += "nothing";
+        }
+
+        if(hashTags!=null){
+            htView.setData(hashTags);
         }
 
         return message;
